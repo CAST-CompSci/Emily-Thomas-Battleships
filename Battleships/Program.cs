@@ -9,10 +9,11 @@ namespace Battleships
     class Program
     {
         // Arrays for holding the grid and alphabet
-        public static string[] GridRow;
-        public static string[] Alphabet = new string[25];
-
-        static void Main(string[] args)
+        protected static string[] GridRow;
+        protected static string[] Alphabet = new string[25];
+        protected static string[,] ShipInfo = new string[3, 2];
+        
+            static void Main(string[] args)
         {
             SetupGame();
             DrawGrid(20, 20);
@@ -30,7 +31,7 @@ namespace Battleships
             }
 
             for (int i = 1; i < Height; i++)
-            {
+            { 
                 GridRow[i] = Alphabet[i - 1] + " ";
             }
 
@@ -48,6 +49,18 @@ namespace Battleships
             }           
         }
 
+        static void PlaceShips()
+        {
+            ShipInfo = new string[,]
+            {
+                {"Carrier", "5", "1"},
+                {"Battleship", "4", "1"},
+                {"Submarine", "3", "1"},
+                {"Destroyer", "2", "1"}
+            };
+        }
+
+
         static void SetupGame()
         {
             int i = 0;
@@ -56,6 +69,9 @@ namespace Battleships
                 Alphabet[i] = c.ToString();
                 i += 1;
             }
+
+            
+
         }
     }
 }
