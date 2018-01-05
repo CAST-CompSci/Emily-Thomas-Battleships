@@ -15,7 +15,38 @@ namespace Battleships
         static void Main(string[] args)
         {
             SetupGame();
-            DrawGrid(20, 20);
+            int Width = 0;
+            string Widthstring;
+            int Height = 0;
+            string Heightstring;
+            bool valid = false;
+
+            while (valid == false)
+            {
+                Console.WriteLine("Please enter your desired width. Must be between 1 and 26.");
+                Widthstring = Console.ReadLine();
+                bool res = int.TryParse(Widthstring, out Width);
+                if (res == false)
+                {
+                    Console.WriteLine("Please choose a number between 1 and 26");
+                    
+                }
+
+                Console.WriteLine("Please enter your desired height. Must be between 1 and 26.");
+                Heightstring = Console.ReadLine();
+                bool resb = int.TryParse(Heightstring, out Height);
+                if (resb == false)
+                {
+                    Console.WriteLine("Please choose a number between 1 and 26");  
+                }
+                else
+                {
+                    valid = true;
+                }
+
+            }
+            Console.Clear();
+            DrawGrid(Width, Height);
             Console.Read();
         }
 
@@ -57,5 +88,6 @@ namespace Battleships
                 i += 1;
             }
         }
+
     }
 }
