@@ -15,7 +15,7 @@ namespace Battleships
         static void Main(string[] args)
         {
             SetupGame();
-            DrawGrid(20, 10);
+            DrawGrid(20, 20);
             Console.Read();
         }
 
@@ -31,7 +31,7 @@ namespace Battleships
 
             for (int i = 1; i < Height; i++)
             {
-                GridRow[i] = i.ToString() + " ";
+                GridRow[i] = Alphabet[i - 1] + " ";
             }
 
             for (int ia = 1; ia < Height; ia++)
