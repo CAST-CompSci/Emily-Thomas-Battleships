@@ -21,30 +21,42 @@ namespace Battleships
             string Heightstring;
             bool valid = false;
 
-            while (valid == false)
+            do
             {
                 Console.WriteLine("Please enter your desired width. Must be between 1 and 26.");
                 Widthstring = Console.ReadLine();
                 bool res = int.TryParse(Widthstring, out Width);
-                if (res == false)
+                if (res == false || Width > 26 || Width < 0)
                 {
+                    Console.Clear();
                     Console.WriteLine("Please choose a number between 1 and 26");
-                    
-                }
-
-                Console.WriteLine("Please enter your desired height. Must be between 1 and 26.");
-                Heightstring = Console.ReadLine();
-                bool resb = int.TryParse(Heightstring, out Height);
-                if (resb == false)
-                {
-                    Console.WriteLine("Please choose a number between 1 and 26");  
                 }
                 else
                 {
                     valid = true;
                 }
 
-            }
+            } while (valid == false) ;
+
+            valid = false;
+
+            do
+            {
+                Console.WriteLine("Please enter your desired height. Must be between 1 and 26.");
+                Heightstring = Console.ReadLine();
+                bool resb = int.TryParse(Heightstring, out Height);
+                if (resb == false || Width > 26 || Width < 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Please choose a number between 1 and 26");
+                }
+                else
+                {
+                    valid = true;
+                }
+
+            } while (valid == false);
+
             Console.Clear();
             DrawGrid(Width, Height);
             Console.Read();
