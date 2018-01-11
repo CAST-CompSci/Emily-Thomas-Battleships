@@ -6,19 +6,19 @@ namespace Battleships
     class Program
     {
         // Arrays for holding the grid and alphabet
-        protected static string[] GridRow;
-        protected static string[] Alphabet = new string[25];
-        protected static string[,] ShipInfo = new string[3, 2];
+        public static string[] GridRow;
+        public static string[] Alphabet = new string[25];
+        public static string[,] ShipInfo = new string[3, 2];
 
-        protected const int Name = 0;
-        protected const int Length = 1;
-        protected const int NumberToPlace = 2;
+        public const int Name = 0;
+        public const int Length = 1;
+        public const int NumberToPlace = 2;
 
         static void Main(string[] args)
         {
-            int Width = 0;
+            int Width;
             string Widthstring;
-            int Height = 0;
+            int Height;
             string Heightstring;
             bool valid = false;
 
