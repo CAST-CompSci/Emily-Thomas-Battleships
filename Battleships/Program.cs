@@ -60,8 +60,9 @@ namespace Battleships
 
             Console.Clear();
           
-            SetupGame(20, 20);
+            SetupGame(Width, Height + 1);
             DrawGrid();
+            PlaceShips(5);
 
             Console.Read();
         }
@@ -90,7 +91,7 @@ namespace Battleships
             }          
         }
 
-        static void PlaceShips()
+        static void PlaceShips(int row)
         {
             ShipInfo = new string[,]
             {
@@ -99,11 +100,26 @@ namespace Battleships
                 {"Submarine", "3", "1"},
                 {"Destroyer", "2", "1"}
             };
+
+            Char Seperator = ' ';
+            String[] RowData = GridRow[row].Split(Seperator);
+            GridRow[row] = "";
+
+            RowData[2] = "O";
+
+            foreach (var column in RowData)
+            {
+                GridRow[row] += column + " ";
+            }
+
+            DrawGrid();
         }
+
 
 
         static void DrawGrid()
         {
+            Console.Clear();
             foreach (var row in GridRow)
             {
                 Console.WriteLine(row);
@@ -121,7 +137,7 @@ namespace Battleships
             }
 
             GenerateGrid(width, height);
-            PlaceShips();           
+            // PlaceShips(5);           
         }
 
         static int GetRandomNumber(int min, int max)
