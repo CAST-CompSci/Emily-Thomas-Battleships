@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Text;
 
 namespace Battleships
 {
@@ -10,7 +11,7 @@ namespace Battleships
         public static string[] Alphabet = new string[25];
         public static string[,] ShipInfo = new string[3, 2];
         public static string[,] ShipLocation = new string[3, 4];
-
+      
         public const int Name = 0;
         public const int Length = 1;
         public const int NumberToPlace = 2;
@@ -22,6 +23,7 @@ namespace Battleships
             int Height;
             string Heightstring;
             bool valid = false;
+            int[] indexer = new int[25];
 
             do
             {
@@ -61,9 +63,13 @@ namespace Battleships
 
             Console.Clear();
           
-            SetupGame(Width, Height + 1);
+
+            SetupGame(Width, Height + 1, indexer);
             DrawGrid();
-            PlaceShips(5);
+            PlayGame(Width, Height);
+          
+            // PlaceShips(5);
+
 
             Console.Read();
         }
@@ -72,7 +78,7 @@ namespace Battleships
         {
             GridRow = new string[Height + 1];
             GridRow[0] = " ";
-
+            
             for (int i = 0; i < Width; i++)
             {
                 GridRow[0] += " " + Alphabet[i];
@@ -82,7 +88,7 @@ namespace Battleships
             { 
                 GridRow[i] = Alphabet[i - 1] + " ";
             }
-
+            // Populates grid.
             for (int ia = 1; ia < Height; ia++)
             {
                 for (int ib = 0; ib < Width; ib++)
@@ -128,7 +134,7 @@ namespace Battleships
             }
         }
 
-        static void SetupGame(int width, int height)
+        static void SetupGame(int width, int height, int[] indexer)
         {
             int i = 0;
             for (char c = 'A'; c < 'Z'; c++)
@@ -148,5 +154,54 @@ namespace Battleships
             return random.Next(min, max);
         }
 
+        static void PlayGame(int Width, int Height)
+        {
+            char co_x;
+            string stringx;
+            char co_y;
+            string stringy;
+            bool valid = false;
+          
+
+            Console.WriteLine("Where are you attacking?");
+
+            do
+            {
+                Console.WriteLine("Please enter the x co-ordinate you would like to attack");
+                stringx = Console.ReadLine();
+                bool res = char.TryParse(stringx, out co_x);
+                if (res == false)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Please choose a letter on the grid");
+                }
+                else
+                {
+                    valid = true;
+                   
+                }
+
+            } while (valid == false);
+
+            valid = false;
+
+            do
+            {
+                Console.WriteLine("Please enter the y co-ordinate you would like to attack");
+                stringy = Console.ReadLine();
+                bool resb = char.TryParse(stringy, out co_y);
+                if (resb == false)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Please choose a letter on the grid");
+                }
+                else
+                {
+                    valid = true;
+                }
+
+            } while (valid == false);
+
+        }
     }
 }
