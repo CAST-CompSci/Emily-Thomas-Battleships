@@ -9,6 +9,7 @@ namespace Battleships
         public static string[] GridRow;
         public static string[] Alphabet = new string[25];
         public static string[,] ShipInfo = new string[3, 2];
+        public static string[,] ShipLocation = new string[3, 4];
 
         public const int Name = 0;
         public const int Length = 1;
