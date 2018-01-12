@@ -7,20 +7,20 @@ namespace Battleships
     class Program
     {
         // Arrays for holding the grid and alphabet
-        protected static string[] GridRow;
-        protected static string[] Alphabet = new string[25];
-        protected static string[,] ShipInfo = new string[3, 2];
-
-        protected const int Name = 0;
-        protected const int Length = 1;
-        protected const int NumberToPlace = 2;
+        public static string[] GridRow;
+        public static string[] Alphabet = new string[25];
+        public static string[,] ShipInfo = new string[3, 2];
+        public static string[,] ShipLocation = new string[3, 4];
       
+        public const int Name = 0;
+        public const int Length = 1;
+        public const int NumberToPlace = 2;
 
         static void Main(string[] args)
         {
-            int Width = 0;
+            int Width;
             string Widthstring;
-            int Height = 0;
+            int Height;
             string Heightstring;
             bool valid = false;
             int[] indexer = new int[25];
@@ -63,9 +63,13 @@ namespace Battleships
 
             Console.Clear();
           
+
             SetupGame(Width, Height + 1, indexer);
             DrawGrid();
             PlayGame(Width, Height);
+          
+            // PlaceShips(5);
+
 
             Console.Read();
         }
@@ -94,7 +98,7 @@ namespace Battleships
             }          
         }
 
-        static void PlaceShips()
+        static void PlaceShips(int row)
         {
             ShipInfo = new string[,]
             {
@@ -102,12 +106,27 @@ namespace Battleships
                 {"Battleship", "4", "1"},
                 {"Submarine", "3", "1"},
                 {"Destroyer", "2", "1"}
-        };
+            };
+
+            Char Seperator = ' ';
+            String[] RowData = GridRow[row].Split(Seperator);
+            GridRow[row] = "";
+
+            RowData[2] = "O";
+
+            foreach (var column in RowData)
+            {
+                GridRow[row] += column + " ";
+            }
+
+            DrawGrid();
         }
+
 
 
         static void DrawGrid()
         {
+            Console.Clear();
             foreach (var row in GridRow)
             {
                 Console.WriteLine(row);
@@ -125,7 +144,7 @@ namespace Battleships
             }
 
             GenerateGrid(width, height);
-            PlaceShips();           
+            // PlaceShips(5);           
         }
 
         static int GetRandomNumber(int min, int max)
