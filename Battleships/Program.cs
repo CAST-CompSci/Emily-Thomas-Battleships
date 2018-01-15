@@ -9,9 +9,17 @@ namespace Battleships
         // Arrays for holding the grid and alphabet
         public static string[] GridRow;
         public static string[] Alphabet = new string[25];
-        public static string[,] ShipInfo = new string[3, 2];
+        public static string[,] ShipInfo = new string[,]
+            {
+                {"Carrier", "5", "1"},
+                {"Battleship", "4", "1"},
+                {"Submarine", "3", "1"},
+                {"Destroyer", "2", "1"}
+            };
+
         public static string[,] ShipLocation = new string[3, 4];
-      
+        
+        // Constants for array location information
         public const int Name = 0;
         public const int Length = 1;
         public const int NumberToPlace = 2;
@@ -20,38 +28,40 @@ namespace Battleships
 
         static void Main(string[] args)
         {
-            
             string Widthstring;
             
             string Heightstring;
             bool valid = false;
-            int[] indexer = new int[25];
 
+            /* Loop for checking the inputted width is within bounds and valid
+               Does not allow the user to break out of the loop until it is valid */
             do
             {
                 Console.WriteLine("Please enter your desired width. Must be between 1 and 26.");
                 Widthstring = Console.ReadLine();
-                bool res = int.TryParse(Widthstring, out Width);
-                if (res == false || Width > 26 || Width < 0)
-                {
+                bool res = int.TryParse(Widthstring, out Width); // Check the number that has been inputted can be converted to an int
+                if (res == false || Width > 26 || Width < 0)     // If the number cannot be converted to an int, or it is wider than 26, or narrower than 1,
+                {                                                // ask the user to re input a number between the bounds.
                     Console.Clear();
                     Console.WriteLine("Please choose a number between 1 and 26");
                 }
                 else
                 {
-                    valid = true;
+                    valid = true;   // If it is valid, exit the loop
                 }
 
             } while (valid == false) ;
 
-            valid = false;
+            valid = false;  // Reset valid to false in preperation for the next loop
 
+            /* Loop for check the inputted height in within bounds and valid.
+               Please see last loop for a detailed description */
             do
             {
                 Console.WriteLine("Please enter your desired height. Must be between 1 and 26.");
                 Heightstring = Console.ReadLine();
                 bool resb = int.TryParse(Heightstring, out Height);
-                if (resb == false || Width > 26 || Width < 0)
+                if (resb == false || Height > 26 || Height < 0)
                 {
                     Console.Clear();
                     Console.WriteLine("Please choose a number between 1 and 26");
@@ -66,14 +76,14 @@ namespace Battleships
             Console.Clear();
           
 
-            SetupGame(Width, Height + 1, indexer);
-            DrawGrid();
-            PlayGame(Width, Height);
+            SetupGame(Width, Height + 1);   // Parse the Width and Height variables to the SetupGame function.  Height + 1 to allow for the letter header of the grid
+            DrawGrid();                     // Draw the grid
+            PlayGame(Width, Height);        // TODO:  Play Game Function
           
+
             PlaceShips(5);
+            Console.Read();                 // Read from the console to pause the program
 
-
-            Console.Read();
         }
 
         static void GenerateGrid(int Width, int Height)
@@ -102,13 +112,6 @@ namespace Battleships
 
         static void PlaceShips(int row)
         {
-            //ShipInfo = new string[,]
-            //{
-            string[] Carrier = { "Carrier", "5", "1" };
-            string[] Battleship = { "Battleship", "4", "1" };
-            string[] Submarine = { "Submarine", "3", "1" };
-            string[] Destroyer = { "Destroyer", "2", "1" };
-            //};
             int ran_x;
             int ran_y;
             int direction;
@@ -152,7 +155,7 @@ namespace Battleships
                 }
             
             }
-
+          
             Char Seperator = ' ';
             String[] RowData = GridRow[row].Split(Seperator);
             GridRow[row] = "";
@@ -179,7 +182,7 @@ namespace Battleships
             }
         }
 
-        static void SetupGame(int width, int height, int[] indexer)
+        static void SetupGame(int width, int height)
         {
             int i = 0;
             for (char c = 'A'; c < 'Z'; c++)
