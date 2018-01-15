@@ -23,18 +23,16 @@ namespace Battleships
         public const int Name = 0;
         public const int Length = 1;
         public const int NumberToPlace = 2;
-        public static int Width;
-        public static int Height;
+        public static int Width, Height;
 
         static void Main(string[] args)
         {
-            string Widthstring;
-            
-            string Heightstring;
+            string Widthstring, Heightstring;
+
             bool valid = false;
 
             /* Loop for checking the inputted width is within bounds and valid
-               Does not allow the user to break out of the loop until it is valid */
+             * Does not allow the user to break out of the loop until it is valid */
             do
             {
                 Console.WriteLine("Please enter your desired width. Must be between 1 and 26.");
@@ -55,7 +53,7 @@ namespace Battleships
             valid = false;  // Reset valid to false in preperation for the next loop
 
             /* Loop for check the inputted height in within bounds and valid.
-               Please see last loop for a detailed description */
+             * Please see last loop for a detailed description.*/
             do
             {
                 Console.WriteLine("Please enter your desired height. Must be between 1 and 26.");
@@ -86,21 +84,33 @@ namespace Battleships
 
         }
 
+        /* Function for generating the grid.
+         * Takes the parameters of Width and Height, which are intergers.
+         * These tell the function what size to make the grid.*/
         static void GenerateGrid(int Width, int Height)
         {
+            /* Grid Row array is initialised to be the height of the table + 1.
+             * This + 1 allows for the header table.
+             * Setting GridRow[0] = " " creates a spacer for the headers
+             * to line up with the columns correctly. */
+
             GridRow = new string[Height + 1];
             GridRow[0] = " ";
             
+            // Generate the header index, into Row 0 of the array
             for (int i = 0; i < Width; i++)
             {
                 GridRow[0] += " " + Alphabet[i];
             }
 
+
+            // Generate the row index, into each row of the array
             for (int i = 1; i < Height; i++)
             { 
                 GridRow[i] = Alphabet[i - 1] + " ";
             }
-            // Populates grid.
+ 
+            // Populate grid with Xs. Row by row.
             for (int ia = 1; ia < Height; ia++)
             {
                 for (int ib = 0; ib < Width; ib++)
@@ -171,19 +181,26 @@ namespace Battleships
         }
 
 
-
+        // Function for drawing a grid
         static void DrawGrid()
         {
             Console.Clear();
+
+            /* Loop through each record in the GridRow array.
+             * Write each row to the console. */
             foreach (var row in GridRow)
             {
                 Console.WriteLine(row);
-                Thread.Sleep(0);
             }
         }
 
+        /* Setup Game function
+         * Contains any code that only needs to be run once,
+         * at the begining of the game before the player starts playing */
         static void SetupGame(int width, int height)
-        {
+        { 
+            /* Loop for putting every letter of the alphabet into an array
+             * Used for the indexing of the table */
             int i = 0;
             for (char c = 'A'; c < 'Z'; c++)
             {
