@@ -15,12 +15,14 @@ namespace Battleships
         public const int Name = 0;
         public const int Length = 1;
         public const int NumberToPlace = 2;
+        public static int Width;
+        public static int Height;
 
         static void Main(string[] args)
         {
-            int Width;
+            
             string Widthstring;
-            int Height;
+            
             string Heightstring;
             bool valid = false;
             int[] indexer = new int[25];
@@ -68,7 +70,7 @@ namespace Battleships
             DrawGrid();
             PlayGame(Width, Height);
           
-            // PlaceShips(5);
+            PlaceShips(5);
 
 
             Console.Read();
@@ -100,13 +102,56 @@ namespace Battleships
 
         static void PlaceShips(int row)
         {
-            ShipInfo = new string[,]
+            //ShipInfo = new string[,]
+            //{
+            string[] Carrier = { "Carrier", "5", "1" };
+            string[] Battleship = { "Battleship", "4", "1" };
+            string[] Submarine = { "Submarine", "3", "1" };
+            string[] Destroyer = { "Destroyer", "2", "1" };
+            //};
+            int ran_x;
+            int ran_y;
+            int direction;
+            int check;
+            bool valid = false;
+
+            for (int ia = 0; ia < ShipInfo.Length; ia++)
             {
-                {"Carrier", "5", "1"},
-                {"Battleship", "4", "1"},
-                {"Submarine", "3", "1"},
-                {"Destroyer", "2", "1"}
-            };
+                
+                for (int i = 0; i < 4; i++)
+                {
+                    ran_x = GetRandomNumber(0, Width);
+                    ran_y = GetRandomNumber(0, Height);
+                    do
+                    {
+                        direction = GetRandomNumber(0, 1);
+                        
+                        if (direction == 0)
+                        {
+                            // add direction to array?
+                            check = ran_x + int.Parse(ShipInfo[i, 1].ToString());
+                            if ( check < Width)
+                            {
+                                valid = true;
+                                Console.WriteLine(ran_x);
+                            }
+
+                        }
+                        else
+                        {
+                            // add direction to array?
+                            if (ran_x + int.Parse(ShipInfo[i, 1].ToString()) < Length)
+                            {
+                                valid = true;
+                                Console.WriteLine(ran_x);
+                            }
+                        }
+
+                    } while (valid == false);
+                    Console.WriteLine("It got this far");
+                }
+            
+            }
 
             Char Seperator = ' ';
             String[] RowData = GridRow[row].Split(Seperator);
