@@ -16,14 +16,11 @@ namespace Battleships
                 {"Submarine", "3", "1", "", "", ""},
                 {"Destroyer", "2", "1","","", ""}
             };
-
-        public static string[,] ShipLocation = new string[3, 4];
         
         // Constants for array location information
         public const int Name = 0;
         public const int Length = 1;
-        public const int NumberToPlace = 2;
-        
+        public const int NumberToPlace = 2;        
         public const int Coordinate_x = 3;
         public const int Coordinate_y = 4;
         public const int Direction = 5;
@@ -33,7 +30,8 @@ namespace Battleships
         public const int Submarine = 2;
         public const int Destroyer = 3;
         
-	public static int Width, Height;
+	    public static int Width, Height;
+        public static Random rnd = new Random();
 
         static void Main(string[] args)
         {
@@ -87,9 +85,8 @@ namespace Battleships
             SetupGame(Width, Height + 1);   // Parse the Width and Height variables to the SetupGame function.  Height + 1 to allow for the letter header of the grid
             DrawGrid();                     // Draw the grid
             PlayGame(Width, Height);        // TODO:  Play Game Function
-          
 
-            PlaceShips(5);
+            // PlaceShips();
             Console.Read();                 // Read from the console to pause the program
 
         }
@@ -130,71 +127,45 @@ namespace Battleships
             }          
         }
 
-        static void PlaceShips(int row)
+        static void PlaceShips()
         {
-            int ran_x;  
-            int ran_y;
-            int direction;
-            int check;
+            int ShipLength, ShipDirectionINT, InitialCoordinate_X, InitialCoordinate_Y;
+            string[] GridRowSplit;
+            char SplitChar = ' ';
+
             bool valid = false;
-
-            for (int ia = 0; ia < ShipInfo.Length; ia++)  //Iterates through each subarray in ShipInfo
+            for (int ia = 0; ia < ShipInfo.Length; ia++)
             {
-                
-                for (int i = 0; i < 4; i++)   //Iterates through each item in said subarray
+                ShipLength = int.Parse(ShipInfo[ia, Length]);
+                do
                 {
-                    ran_x = GetRandomNumber(0, Width);  //Gets random co-ordinates on grid
-                    ran_y = GetRandomNumber(0, Height);
-                    do
+                    ShipDirectionINT = GetRandomNumber(rnd, 0, 1);
+
+                    InitialCoordinate_X = GetRandomNumber(rnd, 0, GridRow.Length);
+                    InitialCoordinate_Y = GetRandomNumber(rnd, 0, GridRow[1].Length / 2);
+
+                    ShipInfo[ia, Coordinate_x] = InitialCoordinate_X.ToString();
+                    ShipInfo[ia, Coordinate_y] = InitialCoordinate_Y.ToString();
+
+                    if (ShipDirectionINT == 0)
                     {
-                        direction = GetRandomNumber(0, 1);  //Chooses the direction using a random number
-                        
-                        if (direction == 0) //right
+                        ShipInfo[ia, Direction] = "D";
+
+                        for (int ib = 0; ib < int.Parse(ShipInfo[ia, Length]); ib++)
                         {
-                            check = ran_x + int.Parse(ShipInfo[i, 1].ToString());  //Creates temporary variable for potential end coordinate of ship
-                            if ( check < Width)  //Checks if potential coordinate is valid.
-                            {
-                                valid = true;
-                                ShipInfo[ia, Direction] = direction.ToString(); //Adds direction to the array.
-                                ShipInfo[ia, Coordinate_x] = ran_x.ToString();  //Adds coordinates to array
-                                ShipInfo[ia, Coordinate_y] = ran_y.ToString();
-                                break;
-                                //TODO: Add ran_x to array if valid.
-                            }
-
+                            GridRowSplit = GridRow[InitialCoordinate_X].Split(SplitChar);
+                            GridRowSplit[InitialCoordinate_Y] = "O";
                         }
-                        else  //down
-                        {
-                            // TODO: add direction to array?
-                            if (ran_y + int.Parse(ShipInfo[i, 1].ToString()) < Length)
-                            {
-                                valid = true;
-                                Console.WriteLine(ran_x);
-                                ShipInfo[ia, Direction] = direction.ToString();
-                                ShipInfo[ia, Coordinate_x] = ran_x.ToString();
-                                ShipInfo[ia, Coordinate_y] = ran_y.ToString();
-                                break;
-                            }
-                        }
+                    }
+                    else
+                    {
+                        ShipInfo[ia, Direction] = "R";
+                    }
 
-                    } while (valid == false);  //If invalid, chooses another direction.
-                    Console.WriteLine("It got this far");
-                }
-            
+                    valid = true;
+                } while (valid == false);
+                valid = false;
             }
-            //TODO: Check position against other ships in array.
-            Char Seperator = ' ';
-            String[] RowData = GridRow[row].Split(Seperator);
-            GridRow[row] = "";
-
-            RowData[2] = "O";
-
-            foreach (var column in RowData)
-            {
-                GridRow[row] += column + " ";
-            }
-
-            DrawGrid();
         }
 
 
@@ -229,10 +200,8 @@ namespace Battleships
             // PlaceShips(5);           
         }
 
-        static int GetRandomNumber(int min, int max)
+        static int GetRandomNumber(Random random, int min, int max)
         {
-            Random random = new Random();
-
             return random.Next(min, max);
         }
 
